@@ -1,0 +1,75 @@
+server:
+  port: 8080
+
+spring:
+    datasource:
+      name: lu_tale
+      type: com.alibaba.druid.pool.DruidDataSource
+      druid:
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/lu_tale?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+        username: root
+        password: root
+        initial-size: 1
+        min-idle: 1
+        pool-prepared-statements: true
+        max-pool-prepared-statement-per-connection-size: 20
+              # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        timeBetweenEvictionRunsMillis: 60000
+              # 配置一个连接在池中最小生存的时间，单位是毫秒
+        min-evictable-idle-time-millis: 300000
+        validation-query: SELECT 1 FROM DUAL
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        stat-view-servlet:
+          enabled: true
+          url-pattern: /monitor/*
+        filter:
+          stat:
+            log-slow-sql: true
+            slow-sql-millis: 1000
+            merge-sql: false
+          wall:
+            config:
+              multi-statement-allow: true
+        max-active: 20
+        #获取连接等待超时时间
+        max-wait: 60000
+    aop:
+      auto: true
+      # 决定是基于接口还是基于类的代理被创建 true则是基于类的代理将起作用(需要cglib库) false则标准的JDK 基于接口的代理
+      proxy-target-class: true
+    thymeleaf:
+      # 指定模板的前缀，默认为:classpath:/templates/
+      prefix: classpath:/templates/
+      # 是否检查模板路径是否存在，默认true
+      check-template-location: true
+      # 指定模板的后缀，默认为:.html
+      suffix: .html
+      # 指定模板的编码，默认为: UTF-8
+      encoding: utf-8
+      # 是否开启模板缓存，默认true
+      cache: false
+      # 指定模板的模式，具体查看StandardTemplateModeHandlers，默认为: HTML5
+      mode: LEGACYHTML5
+
+mybatis:
+  mapper-locations: classpath:mybatis/*.xml
+  type-aliases-package: hcw.first.springboot.leaf.entity
+
+
+
+#pagehelper
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+    returnPageInfo: check
+
+# 打印sql日志
+logging:
+  level:
+    hcw.first.springboot.leaf.mapper: DEBUG
+
